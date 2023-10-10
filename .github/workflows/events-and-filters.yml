@@ -1,0 +1,39 @@
+name: Events Demo 1
+on:
+  # Run workflow on pull requests and specify the event type as opened
+  # that means when a pull request is opened, the workflow will run
+  pull_request:
+    types: [opened]
+  # Run workflow on dispatch event
+  workflow_dispatch:
+  # Run workflow on push and filter to run when push to dev branch, feature/* branch,
+  # and bugfix/* branch
+  push:
+    branches:
+      - dev
+      - 'feature/*'
+      - 'bugfix/*'
+
+  # Run workflow only when the these directories are changed
+    paths:
+      - 'src/**'
+      - '.github/workflows/*'
+  # but ignore on the following directories
+    paths-ignore:
+      - '.github/workflows/*'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output event data
+        run: echo "${{ toJSON(github.event) }}"
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Test code
+        run: npm run test
+      - name: Build code
+        run: npm run build
+      - name: Deploy project
+        run: echo "Deploying..."
