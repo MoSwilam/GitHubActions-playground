@@ -14,10 +14,6 @@ on:
       - 'feature/*'
       - 'bugfix/*'
 
-  # Run workflow only when the these directories are changed
-    paths:
-      - 'src/**'
-      - '.github/workflows/*'
   # but ignore on the following directories
     paths-ignore:
       - '.github/workflows/*'
